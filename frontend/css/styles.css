@@ -1,0 +1,10 @@
+#nav-links {
+  background-color: aquamarine;
+}
+
+.view {
+  display: none;
+}
+.view.active {
+  display: block;
+}

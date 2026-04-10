@@ -1,4 +1,4 @@
-#nav-links {
+/* #nav-links {
   background-color: aquamarine;
 }
 
@@ -7,4 +7,29 @@
 }
 .view.active {
   display: block;
+} */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #f8f5f1, #efe7dd);
+  min-height: 100vh;
+}
+
+/* NAVBAR */
+.navbar {
+  width: 90%;
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 14px 28px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(120, 72, 32, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(80, 50, 20, 0.12);
 }

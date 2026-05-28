@@ -40,5 +40,19 @@
     "precio": 8,
     "disponible": true,
     "emoji": "leaf"
+  },
+  {
+    "id": 7,
+    "nombre": "Frappe",
+    "precio": 22,
+    "disponible": true,
+    "emoji": "ice"
+  },
+  {
+    "id": 8,
+    "nombre": "Frappe",
+    "precio": 22,
+    "disponible": true,
+    "emoji": "ice"
   }
 ]

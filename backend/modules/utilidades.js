@@ -1,3 +1,4 @@
+// Funciones reutilizables del servidor
 // Respuesta de exito estandar
 function respuestaOk(datos, mensaje) {
   return {

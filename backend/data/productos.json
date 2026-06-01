@@ -22,10 +22,10 @@
   },
   {
     "id": 4,
-    "nombre": "Brownie",
-    "precio": 10,
+    "nombre": "Frappe Caramel",
+    "precio": 24,
     "disponible": false,
-    "emoji": "cake"
+    "emoji": "ice"
   },
   {
     "id": 5,
@@ -52,6 +52,13 @@
     "id": 8,
     "nombre": "Frappe",
     "precio": 22,
+    "disponible": true,
+    "emoji": "ice"
+  },
+  {
+    "id": 9,
+    "nombre": "Frappe Caramel",
+    "precio": 24,
     "disponible": true,
     "emoji": "ice"
   }

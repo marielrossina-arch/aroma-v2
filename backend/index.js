@@ -1,43 +1,49 @@
-// index.js — punto de entrada de Aroma backend
-const os = require("os");
-const productos = require("./modules/productos");
-const pedidos = require("./modules/pedidos");
-const utilidades = require("./modules/utilidades");
-// Info del servidor
-console.log("=== Servidor Aroma iniciando ===");
-console.log("Sistema:", os.platform(), os.arch());
-console.log("Node.js:", process.version);
-console.log("");
-// Probar modulo de productos
-console.log("--- Productos disponibles ---");
-const resultado = productos.listarDisponibles();
-console.log(resultado.mensaje);
-resultado.datos.forEach((p) => {
-  console.log(` [${p.id}] ${p.nombre} - Bs. ${p.precio}`);
-});
-// Probar crear producto
-console.log("");
-console.log("--- Crear producto nuevo ---");
-const nuevo = productos.crearProducto({
-  nombre: "Frappe",
-  precio: 22,
-  emoji: "ice",
-});
-console.log(nuevo.mensaje, "->", nuevo.datos.id);
-// Probar buscar por id
-console.log("");
-console.log("--- Buscar producto id=2 ---");
-const encontrado = productos.buscarPorId(2);
-console.log(encontrado.datos.nombre);
-// Probar pedidos
-console.log("");
-console.log("--- Crear pedido ---");
-const pedido = pedidos.crearPedido({
-  items: [
-    { id: 1, nombre: "Cafe Americano", precio: 12, cantidad: 2 },
-    { id: 3, nombre: "Latte", precio: 16, cantidad: 1 },
-  ],
-});
-console.log(
-  "Pedido #" + pedido.datos.id + " | Total: Bs." + pedido.datos.total,
+// index.js — version final de produccion
+require("dotenv").config(); // PRIMERA linea siempre
+const express = require("express");
+const cors = require("cors");
+const productosRouter = require("./routes/productos");
+const pedidosRouter = require("./routes/pedidos");
+const app = express();
+const PORT = process.env.PORT || 3000;
+// ── CORS ─────────────────────────────────────────────────────────
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+  }),
 );
+// ── MIDDLEWARE ───────────────────────────────────────────────────
+app.use(express.json());
+// Logging solo en desarrollo
+if (process.env.NODE_ENV !== "production") {
+  app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  });
+}
+// ── RUTAS ────────────────────────────────────────────────────────
+app.get("/", (req, res) => {
+  res.json({
+    ok: true,
+    mensaje: "API Cafeteria Aroma",
+    version: "1.0.0",
+    entorno: process.env.NODE_ENV || "development",
+  });
+});
+app.use("/api/products", productosRouter);
+app.use("/api/orders", pedidosRouter);
+app.use((req, res) => {
+  res.status(404).json({ ok: false, error: "Ruta no encontrada" });
+});
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ ok: false, error: "Error interno" });
+});
+// ── INICIAR ──────────────────────────────────────────────────────
+app.listen(PORT, () => {
+  console.log(`Servidor Aroma en puerto ${PORT}`);
+  console.log(`Entorno: ${process.env.NODE_ENV || "development"}`);
+  console.log(`CORS origin: ${process.env.CORS_ORIGIN || "*"}`);
+});
